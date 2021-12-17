@@ -44,10 +44,9 @@ public class TopicosController {
 	
 	//adicionando paginacao
 	@GetMapping
-	public Page<TopicoDto> lista(@RequestParam(required=false) String nomeCurso,
-			@RequestParam int pagina,@RequestParam int qtd, @RequestParam String ordenacao) {
+	public Page<TopicoDto> lista(@RequestParam(required=false) String nomeCurso,Pageable paginacao) {
 		//adicionando interface de paginação com springData
-		Pageable paginacao = PageRequest.of(pagina, qtd,Direction.ASC,ordenacao);
+	
 		if (nomeCurso == null) {
 			Page<Topico> topicos = topicoRepository.findAll(paginacao);
 			return TopicoDto.converter(topicos);
