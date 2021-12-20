@@ -22,8 +22,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
 		.antMatchers(HttpMethod.GET,"/topicos").permitAll()
-		.antMatchers(HttpMethod.GET,"/topicos/*").permitAll();
-		
+		.antMatchers(HttpMethod.GET,"/topicos/*").permitAll()
+		.anyRequest().authenticated()//qualquer outra requisicao tem que esta autenticado
+		.and().formLogin();
 	}
 	//configuracoes recursos estaticos sao requisicoes para arquivos ->js ,css,imagens
 	@Override
