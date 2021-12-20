@@ -1,5 +1,7 @@
 package com.testeweb.course.controller.form;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class LoginForm {
 	
 	private String email;
@@ -16,6 +18,11 @@ public class LoginForm {
 	}
 	public String getSenha() {
 		return senha;
+	}
+	//metodo de conversao de autenticacao do tokken
+	public UsernamePasswordAuthenticationToken converter() {
+		
+		return new UsernamePasswordAuthenticationToken(email, senha) ;
 	}
 	
 	
