@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +46,7 @@ public class TopicosController {
 	
 	//adicionando paginacao
 	@GetMapping
+	@Cacheable(value="listaDeTopicos") //adicionando o identificador unico desse cache
 	public Page<TopicoDto> lista(@RequestParam(required=false) String nomeCurso,
 		@PageableDefault(sort="id",direction = Direction.DESC,page=0,size=10)	Pageable paginacao) {
 		//adicionando interface de paginação com springData
