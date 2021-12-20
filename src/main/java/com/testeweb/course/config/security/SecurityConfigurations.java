@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -26,8 +27,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		http.authorizeHttpRequests()
 		.antMatchers(HttpMethod.GET,"/topicos").permitAll()
 		.antMatchers(HttpMethod.GET,"/topicos/*").permitAll()
+		.antMatchers(HttpMethod.POST,"/auth/*").permitAll()
 		.anyRequest().authenticated()//qualquer outra requisicao tem que esta autenticado
-		.and().formLogin();
+		.and().csrf().disable()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//não e para criar sessesao a autenticacao vai ser do modo tokken
+		
+	
 	}
 	//configuracoes recursos estaticos sao requisicoes para arquivos ->js ,css,imagens
 	@Override
