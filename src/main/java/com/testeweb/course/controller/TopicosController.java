@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +62,7 @@ public class TopicosController {
 	}
 	@PostMapping
 	@Transactional
+	@CacheEvict(value="listaDeTopicos", allEntries = true) //limpar o cache e atualizar 
 	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Validated TopicoForm form , UriComponentsBuilder uriBuilder){
 		//converter recebendo um form e convetendo para o topico dto
 		Topico topico = form.converter(cursoRepository);
@@ -83,6 +85,7 @@ public class TopicosController {
 	//atualizando o topico
 	@PutMapping("/{id}")
 	@Transactional
+	@CacheEvict(value="listaDeTopicos", allEntries = true) //limpar o cache e atualizar 
 	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Validated AtualizacaoTopicoForm form){
 		
 		Topico topico = form.atualizar(id,topicoRepository);
@@ -92,6 +95,7 @@ public class TopicosController {
 	//excluir
 	@DeleteMapping("/{id}")
 	@Transactional
+	@CacheEvict(value="listaDeTopicos", allEntries = true) //limpar o cache e atualizar 
 	public ResponseEntity excluir(@PathVariable Long id){
 		 topicoRepository.deleteById(id);
 		   return ResponseEntity.ok().build();
