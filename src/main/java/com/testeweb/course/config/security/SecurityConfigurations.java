@@ -1,10 +1,12 @@
 package com.testeweb.course.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -41,8 +43,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.POST,"/auth/*").permitAll()
 		.anyRequest().authenticated()//qualquer outra requisicao tem que esta autenticado
 		.and().csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//não e para criar sessesao a autenticacao vai ser do modo tokken
-		
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//não e para criar sessesao a autenticacao vai ser do modo tokken
+		.and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class); //antes de fazer autenticacao rode nosso filter para pegar o token
 	
 	}
 	//configuracoes recursos estaticos sao requisicoes para arquivos ->js ,css,imagens
