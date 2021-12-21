@@ -49,6 +49,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.GET,"/topicos").permitAll()
 		.antMatchers(HttpMethod.GET,"/topicos/*").permitAll()
 		.antMatchers(HttpMethod.POST,"/auth/*").permitAll()
+		.antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
 		.anyRequest().authenticated()//qualquer outra requisicao tem que esta autenticado
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//não e para criar sessesao a autenticacao vai ser do modo tokken
