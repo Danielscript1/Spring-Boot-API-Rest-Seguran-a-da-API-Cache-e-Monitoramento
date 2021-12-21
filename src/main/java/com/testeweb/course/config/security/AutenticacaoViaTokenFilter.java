@@ -15,12 +15,21 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 	 *  verificar se está ok, autenticar no Spring
 	 * 
 	 * */
+	
+	private TokenService tokenService;
+	
+	
+	
+	public AutenticacaoViaTokenFilter(TokenService tokenService) {
+		this.tokenService = tokenService;
+	}
+	
 	@Override 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String token = recuperarToken(request);
 		//proximo passo e validar o token,verificar se ele esta correto
-		
+		boolean valido = tokenService.isTokenValido(token);
 		filterChain.doFilter(request, response);//essa linha significa ja executei as tarefa pedentes e seguir o fluxo da execucao dos demias componentes
 		
 	}

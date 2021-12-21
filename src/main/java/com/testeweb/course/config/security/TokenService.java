@@ -33,6 +33,23 @@ public class TokenService {
 					.signWith(SignatureAlgorithm.HS256, secret)
 					.compact();
 		}
+	public boolean isTokenValido(String token) {
+	/*Aqui temos aquele método para gerar o token. Preciso ter esse método para fazer a validação,
+	 * para validar se o token que está chegando está ok ou não. Para fazer isso, vamos usar de novo o tal de jwts
+	 * Na sequência, temos que chamar primeiro setSigningKey. Tenho que passar aquele secret da nossa aplicação, 
+	 * que é a chave que ele usa para criptografar e descriptografar. Tem um método chamado parseClaimsJws.
+	 * Esse é o método que vamos chamar passando como parâmetro o token.
+	 * Esse método devolve o Jws claims, que é um objeto onde consigo recuperar o token e as informações que setei dentro do token.
+	 * Mas quando eu fizer essa chamada, se o token estiver válido, ele devolve o objeto. Se estiver inválido ou nulo,
+	 * ele joga uma exception
+	 * */
+		try {
+		Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+		return true;
+		}catch(Exception e) {
+			return false;
+		}
+	}
 
 		
 	}

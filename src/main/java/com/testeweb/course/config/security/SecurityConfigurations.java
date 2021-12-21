@@ -22,6 +22,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private autenticacaoService autenticacaoService;
 	
+	@Autowired
+	private TokenService Tokenservice;
+	
 	@Override
 	@Bean //metodo de autenticaficao pelo tokken
 	protected AuthenticationManager authenticationManager() throws Exception {
@@ -44,7 +47,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.anyRequest().authenticated()//qualquer outra requisicao tem que esta autenticado
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//não e para criar sessesao a autenticacao vai ser do modo tokken
-		.and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class); //antes de fazer autenticacao rode nosso filter para pegar o token
+		.and().addFilterBefore(new AutenticacaoViaTokenFilter(Tokenservice), UsernamePasswordAuthenticationFilter.class); //antes de fazer autenticacao rode nosso filter para pegar o token
 	
 	}
 	//configuracoes recursos estaticos sao requisicoes para arquivos ->js ,css,imagens
